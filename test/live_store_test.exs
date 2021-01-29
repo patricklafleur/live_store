@@ -111,7 +111,7 @@ defmodule LiveStoreTest do
   end
 
   defp sync_dispatcher() do
-    fn store, state, {action_id, _} = action ->
+    fn store, state, {_, _} = action ->
       store |> LiveStore.dispatch(state, action)
     end
   end
@@ -137,9 +137,9 @@ defmodule LiveStoreTest do
   end
 
   defp halting_middleware() do
-    fn store ->
-      fn next ->
-        fn state, {_action, %{v: v}} ->
+    fn _store ->
+      fn _next ->
+        fn state, {_, %{v: _}} ->
           # does not call the next function, effectively stopping the chain
           # this might be used to call a function that requires a certain security level
           # or some criteria is not met, etc.
@@ -151,7 +151,7 @@ defmodule LiveStoreTest do
   end
 
   defp negate_middleware() do
-    fn store ->
+    fn _store ->
       fn next ->
         fn state, {action, %{v: v} = params} ->
           next.(state, {action, %{params | v: -v}})
@@ -161,11 +161,11 @@ defmodule LiveStoreTest do
   end
 
   defp identity_reducer() do
-    fn state, action -> state end
+    fn state, _action -> state end
   end
 
   defp inc_by_value_reducer() do
-    fn state, {action, %{v: v}} ->
+    fn state, {_, %{v: v}} ->
       %{state | counter: state.counter + v}
     end
   end
@@ -175,10 +175,10 @@ defmodule LiveStoreTest do
   end
 
   defmodule IncrementReducer do
-    def handle(state, {"dec", %{v: v}} = action), do: state |> add(-v)
-    def handle(state, {"dec", _} = action), do: state |> add(-1)
+    def handle(state, {"dec", %{v: v}}), do: state |> add(-v)
+    def handle(state, {"dec", _}), do: state |> add(-1)
 
-    def handle(state, {"inc", %{v: v}} = action), do: state |> add(v)
+    def handle(state, {"inc", %{v: v}}), do: state |> add(v)
     def handle(state, {"inc", _}), do: state |> add(1)
 
     defp add(%{counter: counter} = state, v), do: %{state | counter: counter + v}
