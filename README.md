@@ -11,9 +11,7 @@ This library is still new, I created the project on January, 26. It should be co
 
 ## The approach
 
-The library does not blindly port JS/Redux to Elixir, I tried to maximize Elixir features to the best of my knowledge: pattern matching, function composition, etc. 
-
-Since LiveView already are a process, I avoided dependencies on GenServers, Agent and the like. 
+Since LiveView are processes, I avoided dependencies on GenServers, Agent and the like. 
 
 There is no coupling to LiveView: socket, etc. Nothing prevents to use the library in a GenServer or in a distributed process. 
 
