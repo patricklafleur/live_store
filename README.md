@@ -31,7 +31,7 @@ Add this dependency to your `mix.exs` file:
 ```elixir
 def deps do
   [
-    {:live_store, "~> 0.1.0"}
+    {:live_store, git: "https://github.com/patricklafleur/live_store.git"}
   ]
 end
 ```
