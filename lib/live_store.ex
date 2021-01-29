@@ -126,14 +126,10 @@ defmodule LiveStore do
         ) ::
           {:ok, state_type} | {:error, atom()}
 
+  def dispatch(nil, _, _), do: {:error, :store_is_nil}
   def dispatch({:error, _} = error, _, _), do: error
 
-  def dispatch(
-        {:ok, store},
-        %{} = state,
-        {_, _} = action
-      ),
-      do: dispatch(store, state, action)
+  def dispatch({:ok, store}, %{} = state, {_, _} = action), do: dispatch(store, state, action)
 
   def dispatch(
         [root_reducer: reducer, dispatcher: _dispatch],
