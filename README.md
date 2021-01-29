@@ -1,3 +1,5 @@
+![master](https://github.com/patricklafleur/live_store/workflows/Elixir%20CI/badge.svg)
+
 # LiveStore
 ## State management made easy for LiveView
 
