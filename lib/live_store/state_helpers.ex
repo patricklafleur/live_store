@@ -1,4 +1,4 @@
-defmodule StateHelpers do
+defmodule LiveStore.StateHelpers do
   def keep_if_true(true, source, _), do: source
   def keep_if_true(false, _, updated), do: updated
 
@@ -9,9 +9,13 @@ defmodule StateHelpers do
     fn e1, e2 -> e1.id == e2.id end
   end
 
-  def replace_one(elements, match_fn, replacement) do
-    case Enum.find_index(elements, & match_fn.(&1, replacement)) do
-      nil   -> elements
+  def matching_id(id) do
+    fn e -> e.id == id end
+  end
+
+  def replace_first(elements, match_fn, replacement) do
+    case Enum.find_index(elements, &match_fn.(&1, replacement)) do
+      nil -> elements
       index -> List.replace_at(elements, index, replacement)
     end
   end
